@@ -1,0 +1,65 @@
+table Costos
+	lineageTag: 28ea9903-375e-4964-b38c-1b7765798e7f
+
+	column ID
+		dataType: int64
+		formatString: 0
+		lineageTag: 2caa6fb2-59f0-47e4-81c1-ec7c43419437
+		summarizeBy: count
+		sourceColumn: ID
+
+		annotation SummarizationSetBy = Automatic
+
+	column Descripción
+		dataType: string
+		lineageTag: 1d8f7288-2a89-4fe3-ac07-f8b8b78918ed
+		summarizeBy: none
+		sourceColumn: Descripción
+
+		annotation SummarizationSetBy = Automatic
+
+	column Costos
+		dataType: int64
+		formatString: 0
+		lineageTag: 1d4e4459-0c08-41cd-8013-58cdb1d87caa
+		summarizeBy: sum
+		sourceColumn: Costos
+
+		annotation SummarizationSetBy = Automatic
+
+	column Fecha
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 41e3c030-fd3e-4e31-9fc1-e0e4bbf9f936
+		summarizeBy: none
+		sourceColumn: Fecha
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Cant.Aleatoria' =
+			
+			RANDBETWEEN(1,10)
+		formatString: 0
+		lineageTag: 4cee7959-7e3f-4ff7-ab11-4424edb35dbe
+		summarizeBy: sum
+
+		annotation SummarizationSetBy = Automatic
+
+	partition Costos = m
+		mode: import
+		queryGroup: Modelo
+		source =
+				let
+				    Origen = Excel.Workbook(File.Contents("C:\Users\maria\Downloads\Costo_Ingreso.xlsx"), null, true),
+				    Costos_Sheet = Origen{[Item="Costos",Kind="Sheet"]}[Data],
+				    #"Encabezados promovidos" = Table.PromoteHeaders(Costos_Sheet, [PromoteAllScalars=true]),
+				    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"ID", Int64.Type}, {"Descripción", type text}, {"Costos", Int64.Type}, {"Fecha", type date}})
+				in
+				    #"Tipo cambiado"
+
+	annotation PBI_ResultType = Table
+
+	annotation PBI_NavigationStepName = Navegación
+

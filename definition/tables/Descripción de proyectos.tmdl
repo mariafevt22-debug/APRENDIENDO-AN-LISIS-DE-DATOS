@@ -1,0 +1,25 @@
+table 'Descripción de proyectos'
+	lineageTag: ad48d655-b604-4b2b-a412-9fdb5bf83a8d
+
+	column 'Descripción proyectos'
+		dataType: string
+		lineageTag: be9e742a-63cb-499f-9ca7-96fcb6cbcfb4
+		summarizeBy: none
+		sourceColumn: Descripción proyectos
+
+		annotation SummarizationSetBy = Automatic
+
+	partition 'Descripción de proyectos' = m
+		mode: import
+		queryGroup: Modelo
+		source =
+				let
+				    Origen = Table.Combine({Ingresos_Descripción, Costos_Descripción}),
+				    #"Duplicados quitados" = Table.Distinct(Origen)
+				in
+				    #"Duplicados quitados"
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

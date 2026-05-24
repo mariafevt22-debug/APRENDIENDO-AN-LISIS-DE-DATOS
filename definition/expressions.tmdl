@@ -1,0 +1,33 @@
+expression Costos_Descripción =
+		let
+		    Origen = Excel.Workbook(File.Contents("C:\Users\maria\Downloads\Costo_Ingreso.xlsx"), null, true),
+		    Costos_Sheet = Origen{[Item="Costos",Kind="Sheet"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(Costos_Sheet, [PromoteAllScalars=true]),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"ID", Int64.Type}, {"Descripción", type text}, {"Costos", Int64.Type}, {"Fecha", type date}}),
+		    #"Otras columnas quitadas" = Table.SelectColumns(#"Tipo cambiado",{"Descripción"}),
+		    #"Columnas con nombre cambiado" = Table.RenameColumns(#"Otras columnas quitadas",{{"Descripción", "Descripción proyectos"}}),
+		    #"Duplicados quitados" = Table.Distinct(#"Columnas con nombre cambiado")
+		in
+		    #"Duplicados quitados"
+	lineageTag: 1845d04e-0461-492c-b942-ec1e7ed28b6c
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+
+expression Ingresos_Descripción =
+		let
+		    Origen = Excel.Workbook(File.Contents("C:\Users\maria\Downloads\Costo_Ingreso.xlsx"), null, true),
+		    Ingresos_Sheet = Origen{[Item="Ingresos",Kind="Sheet"]}[Data],
+		    #"Encabezados promovidos" = Table.PromoteHeaders(Ingresos_Sheet, [PromoteAllScalars=true]),
+		    #"Tipo cambiado" = Table.TransformColumnTypes(#"Encabezados promovidos",{{"ID", Int64.Type}, {"Descripción proyectos", type text}, {"Ingreso", type number}, {"Fecha", type date}}),
+		    #"Otras columnas quitadas" = Table.SelectColumns(#"Tipo cambiado",{"Descripción proyectos"}),
+		    #"Duplicados quitados" = Table.Distinct(#"Otras columnas quitadas")
+		in
+		    #"Duplicados quitados"
+	lineageTag: 94479f57-5a29-49c3-92d5-00c76a70a6f6
+
+	annotation PBI_NavigationStepName = Navegación
+
+	annotation PBI_ResultType = Table
+

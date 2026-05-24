@@ -1,0 +1,21 @@
+relationship AutoDetected_695dbe69-e785-424a-9bf8-299f3bbbf2b4
+	fromColumn: Ingresos.'Descripción proyectos'
+	toColumn: 'Descripción de proyectos'.'Descripción proyectos'
+
+relationship a163112e-0922-49e7-addb-1f57d46d974e
+	fromColumn: Costos.Descripción
+	toColumn: 'Descripción de proyectos'.'Descripción proyectos'
+
+relationship ca412d66-e085-4b7e-8e51-b5725e296f28
+	joinOnDateBehavior: datePartOnly
+	fromColumn: CALENDARIO.Date
+	toColumn: LocalDateTable_44808757-e310-4d07-b28e-ed1012b1e6e8.Date
+
+relationship e67ce252-da78-d4e9-3aec-873a13b7f931
+	fromColumn: Ingresos.Fecha
+	toColumn: CALENDARIO.Date
+
+relationship 497ca28a-3d9c-77f7-65bd-ece265ce6f6a
+	fromColumn: Costos.Fecha
+	toColumn: CALENDARIO.Date
+
