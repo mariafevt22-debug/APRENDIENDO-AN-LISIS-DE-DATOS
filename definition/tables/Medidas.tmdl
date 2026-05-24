@@ -1,13 +1,6 @@
 table Medidas
 	lineageTag: 785abbc1-408e-40a0-b7a1-337efda57921
 
-	measure GANANCIA =
-			
-			SUM(Ingresos[Ingreso]) - SUM(Costos[Costos])
-		lineageTag: 64b0423a-309d-4cd5-94ac-da87288a6962
-
-		annotation PBI_FormatHint = {"isGeneralNumber":true}
-
 	measure 'Cost.Total_SUM' = sum(Costos[Costos]) * sum(Costos[Cant.Aleatoria])
 		formatString: 0
 		lineageTag: 6fe15ba5-974f-44f5-873d-a2eeedcfc3dc
